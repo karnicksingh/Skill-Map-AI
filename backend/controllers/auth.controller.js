@@ -213,6 +213,26 @@ async function verifyOtp(req,res){
 
 
 /**
+ * @name verification Controller
+ *  @description Controller for verifying user token and getting user details
+ * @access Private
+ */
+async function verifyTokenController(req,res){
+    const userId = req.user.id;
+    const user = await userModel.findById(userId);
+
+    res.status(200).json({ 
+        message:"User is verified successfully",
+        user:{
+            id:user._id,
+            username:user.username,
+            email:user.email    
+        }
+    })
+}
+
+
+/**
  * @route post /api/auth/logout
  * @description Logout user and blacklist the token
  * @access   public
@@ -240,4 +260,4 @@ async function logoutUserController(req,res){
 }
 
 
-module.exports = {registerUserController, loginUserController,sendOtp,verifyOtp,logoutUserController};
+module.exports = {registerUserController, loginUserController,sendOtp,verifyOtp,logoutUserController,verifyTokenController};
