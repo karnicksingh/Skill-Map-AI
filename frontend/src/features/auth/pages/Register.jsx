@@ -1,10 +1,16 @@
-import React from 'react'
+import { useState } from 'react'
+const Register =() => {
+ const[responce ,setResponce]=useState([])
+  
 
-export default register = () => {
-  return (
-    <div>
-      
-    </div>
+  
+   return (
+   <>
+ <h1> Register is working </h1>
+   
+   </>
   )
 }
 
+
+export default Register;
