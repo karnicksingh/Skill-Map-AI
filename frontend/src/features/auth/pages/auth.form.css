@@ -1,25 +1,4 @@
-/* Login Form Styling */
-:root {
-  --primary-color: #6366f1;
-  --primary-dark: #4f46e5;
-  --primary-light: #818cf8;
-  --success-color: #10b981;
-  --danger-color: #ef4444;
-  --text-dark: #1f2937;
-  --text-light: #6b7280;
-  --border-color: #e5e7eb;
-  --bg-light: #f9fafb;
-  --bg-white: #ffffff;
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* Simple and Clean Login Form Styling */
 
 main {
   min-height: 100vh;
@@ -27,153 +6,66 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, sans-serif;
-  padding: 20px;
-}
-
-main h1 {
-  position: absolute;
-  top: 40px;
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--bg-white);
-  letter-spacing: -0.5px;
+  background-color: #f3f4f6;
+  font-family: Arial, sans-serif;
 }
 
 form {
-  background: var(--bg-white);
-  padding: 48px 40px;
-  border-radius: 16px;
-  box-shadow: var(--shadow-lg);
+  background-color: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 420px;
-  animation: slideUp 0.4s ease-out;
+  max-width: 400px;
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 28px;
 }
 
 .input-group {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .input-group label {
   font-size: 14px;
-  font-weight: 600;
-  color: var(--text-dark);
-  letter-spacing: 0.3px;
-  text-transform: capitalize;
+  color: #555;
+  font-weight: bold;
 }
 
 .input-group input {
-  border: 2px solid var(--border-color);
+  border: 1px solid #ddd;
   outline: none;
-  padding: 12px 16px;
-  font-size: 15px;
-  border-radius: 8px;
-  color: var(--text-dark);
-  background-color: var(--bg-light);
-  transition: all 0.3s ease;
-}
-
-.input-group input::placeholder {
-  color: var(--text-light);
+  padding: 12px 15px;
   font-size: 14px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
 }
 
 .input-group input:focus {
-  border-color: var(--primary-color);
-  background-color: var(--bg-white);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-  transform: translateY(-2px);
-}
-
-.input-group input:hover {
-  border-color: var(--primary-light);
+  border-color: #4CAF50;
+  background-color: white;
 }
 
 button {
   width: 100%;
-  padding: 14px 20px;
+  padding: 12px;
   font-size: 16px;
-  font-weight: 600;
-  color: var(--bg-white);
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+  font-weight: bold;
+  color: white;
+  background-color: #4CAF50;
   border: none;
-  border-radius: 8px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  box-shadow: var(--shadow-md);
-  margin-top: 12px;
+  margin-top: 10px;
 }
 
 button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 20px -5px rgba(99, 102, 241, 0.3);
-  background: linear-gradient(135deg, var(--primary-dark) 0%, #4338ca 100%);
-}
-
-button:active {
-  transform: translateY(0);
-  box-shadow: var(--shadow-md);
-}
-
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* Responsive Design */
-@media (max-width: 480px) {
-  form {
-    padding: 32px 24px;
-    max-width: 100%;
-  }
-
-  main h1 {
-    top: 20px;
-    font-size: 24px;
-  }
-
-  .input-group {
-    margin-bottom: 20px;
-  }
-
-  .input-group input {
-    padding: 11px 14px;
-    font-size: 14px;
-  }
-
-  button {
-    padding: 12px 16px;
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 320px) {
-  form {
-    padding: 24px 16px;
-    border-radius: 12px;
-  }
-
-  main h1 {
-    font-size: 20px;
-    top: 10px;
-  }
+  background-color: #45a049;
 }
