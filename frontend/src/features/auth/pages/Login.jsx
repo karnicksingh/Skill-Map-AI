@@ -1,14 +1,24 @@
 import React from 'react'
+import { useState } from 'react'
 import {useNavigate , Link} from "react-router"
-
+import { useAuth } from '../hooks/useAuth.js'
 
 import "./auth.form.css";
 
 const Login = () => {
 
+const{ loading, handleLogin } = useAuth();
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
 
- const handleSubmit =(e)=>{
+ const handleSubmit = async (e)=>{
   e.preventDefault();
+   await handleLogin({email, password});
+ console.log("Login finished");
+ }
+
+ if(loading){
+    return <main ><h1>Loading...</h1></main>
  }
 
   
@@ -35,6 +45,8 @@ const Login = () => {
                             id="email"
                             name="email"
                             placeholder="you@example.com"
+                            value={email}
+                            onChange={(e)=> setEmail(e.target.value)}
                         />
                     </div>
 
@@ -48,6 +60,8 @@ const Login = () => {
                             id="password"
                             name="password"
                             placeholder="••••••••"
+                            value={password}
+                            onChange={(e)=> setPassword(e.target.value)}
                         />
                     </div>
 
