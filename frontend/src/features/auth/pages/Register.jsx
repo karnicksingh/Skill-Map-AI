@@ -1,9 +1,24 @@
 import { useState } from 'react'
 import {useNavigate , Link} from "react-router"
+import  { useAuth } from '../hooks/useAuth.js'
+import "./auth.form.css";
+
+
 const Register =() => {
  const navigate = useNavigate();
- const handleSubmit =(e)=>{
+ const { loading, handleRegister } = useAuth();
+
+ const [username, setUsername] = useState("");
+ const [email, setEmail] = useState("");
+ const [password, setPassword] = useState("");
+
+ const handleSubmit =async (e)=>{
   e.preventDefault();
+  await handleRegister({username, email, password});
+  console.log("Register finished");
+  navigate("/");
+  
+
  }
 
   
@@ -30,6 +45,8 @@ const Register =() => {
                             id="username"
                             name="username"
                             placeholder="Enter your username"
+                            value={username}
+                            onChange={(e)=> setUsername(e.target.value)}
                         />
                     </div>
                     <div className="input-group">
@@ -42,6 +59,9 @@ const Register =() => {
                             id="email"
                             name="email"
                             placeholder="you@example.com"
+                            value={email}
+                            onChange={(e)=> setEmail(e.target.value)}
+                            
                         />
                     </div>
 
@@ -55,16 +75,24 @@ const Register =() => {
                             id="password"
                             name="password"
                             placeholder="••••••••"
+                            value={password}
+                            onChange={(e)=> setPassword(e.target.value)}
                         />
                     </div>
 
                     <div className="form-options">
                     </div>
 
-                    <button type="submit">
-                        Sign up
-                    </button>
-
+                   <button type="submit" disabled={loading}>
+    {loading ? (
+        <>
+            <span className="spinner"></span>
+            Signing up...
+        </>
+    ) : (
+        "Sign up"
+    )}
+</button>
                 </form>
 
                 <div className="divider">

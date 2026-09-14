@@ -41,6 +41,7 @@ export async function login({email,password}){
 
      }catch(error){
         console.log('Error logging in user:', error);
+        throw error; // Rethrow the error to be handled by the caller
      }
 }
 

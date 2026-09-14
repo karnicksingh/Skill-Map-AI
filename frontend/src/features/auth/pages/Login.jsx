@@ -6,6 +6,7 @@ import { useAuth } from '../hooks/useAuth.js'
 import "./auth.form.css";
 
 const Login = () => {
+    const navigate = useNavigate();
 
 const{ loading, handleLogin } = useAuth();
 const [email, setEmail] = useState("");
@@ -15,11 +16,9 @@ const [password, setPassword] = useState("");
   e.preventDefault();
    await handleLogin({email, password});
  console.log("Login finished");
+ navigate("/");
  }
 
- if(loading){
-    return <main ><h1>Loading...</h1></main>
- }
 
   
     return (
@@ -73,10 +72,16 @@ const [password, setPassword] = useState("");
 
                     </div>
 
-                    <button type="submit">
-                        Sign in
-                    </button>
-
+                   <button type="submit" disabled={loading}>
+    {loading ? (
+        <>
+            <span className="spinner"></span>
+            Signing in...
+        </>
+    ) : (
+        "Sign in"
+    )}
+</button>
                 </form>
 
                 <div className="divider">
