@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import {useNavigate , Link} from "react-router"
 import { useAuth } from '../hooks/useAuth.js'
+import {toast} from "sonner"
 
 import "./auth.form.css";
 
@@ -15,7 +16,7 @@ const [password, setPassword] = useState("");
  const handleSubmit = async (e)=>{
   e.preventDefault();
    await handleLogin({email, password});
- console.log("Login finished");
+ console.log("Login finished")
  navigate("/");
  }
 
