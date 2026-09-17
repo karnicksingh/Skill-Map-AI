@@ -1,0 +1,480 @@
+/*
+  Home.css — SkillMap AI
+  Translated from the provided SCSS design system to vanilla CSS.
+  All SCSS variables → CSS custom properties.
+  All component classes remapped to the actual Home.jsx class names:
+    .home-page           → .home
+    .interview-card body → .intervirew-input-group
+    .panel--left         → .left
+    .panel--right        → .right
+    .panel__textarea     → .left > textarea
+    .dropzone            → input[type="file"]  (CSS-only)
+    .section-label       → .input-group label
+    .panel__textarea--short → .input-group textarea
+    .generate-btn        → .generate-btn
+*/
+
+/* ─── Design Tokens ───────────────────────────────────────────── */
+/*
+  All values matched directly from auth.form.css (Login / Register pages)
+  so all routes share a single visual identity.
+*/
+:root {
+  --bg-page:        #0d0f0e;          /* near-black, warm tint (auth shell) */
+  --bg-card:        #161b19;          /* card surface */
+  --bg-panel:       #1c2220;          /* panel raise */
+  --bg-input:       #343B39;          /* exact auth input background */
+  --border-color:   #89918f;          /* exact auth input border */
+  --text-primary:   #ffffff;          /* auth body text */
+  --text-muted:     #dddddd;          /* exact auth placeholder / description */
+  --accent:         #55e6c1;          /* exact auth primary button color */
+  --accent-dark:    #43d4af;          /* exact auth button hover color */
+  --accent-text:    #223430;          /* exact auth button text color */
+  --info-bg:        #1b2e29;
+  --info-border:    #2d4a42;
+  --font-stack:     monospace, 'Courier New', Courier;  /* auth monospace */
+}
+
+/* ─── Reset ───────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Page Shell  (.home-page → .home) ───────────────────────── */
+.home {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-stack);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  gap: 2rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Page Header ─────────────────────────────────────────────── */
+/*
+  Matches SCSS .page-header block:
+    h1 → 2.25rem, 700, text-primary
+    p  → text-muted, 0.95rem, max-width 480px
+    .highlight → accent color (#ff2d78)
+*/
+.page-header {
+  text-align: center;
+  width: 100%;
+  max-width: 900px;
+}
+
+.page-header h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.page-header p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.highlight {
+  color: var(--accent);
+}
+
+/* ─── Interview Card  (.interview-card → .intervirew-input-group) */
+
+/*
+  The card wraps both left + right panels in a single bordered surface.
+*/
+.intervirew-input-group {
+  width: 100%;
+  max-width: 900px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  overflow: hidden;
+
+  /* __body */
+  display: flex;
+  min-height: 520px;
+}
+
+/* ─── Panel Divider ───────────────────────────────────────────── */
+/* Simulated with border-right on .left instead of a separate element */
+
+/* ─── Left Panel  (.panel--left → .left) ─────────────────────── */
+.left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  position: relative;                   /* for char-counter absolute pos */
+  border-right: 1px solid var(--border-color);
+}
+
+/* Panel header — "Job Description"
+   ::before  → clipboard SVG-style icon (emoji fallback)
+   ::after   → "Required" badge pill
+*/
+.left > label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+  cursor: default;
+}
+
+.left > label::before {
+  content: "📋";
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--accent);
+  filter: grayscale(0);
+}
+
+.left > label::after {
+  content: "Required";
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background-color: rgba(85, 230, 193, 0.12);
+  color: var(--accent);
+  border: 1px solid rgba(85, 230, 193, 0.3);
+  margin-left: auto;
+}
+
+/* Job Description textarea  (.panel__textarea → .left > textarea) */
+.left > textarea {
+  flex: 1;
+  width: 100%;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: var(--text-primary);
+  font-family: var(--font-stack);
+  font-size: 0.875rem;
+  resize: none;
+  outline: none;
+  transition: border-color 0.2s;
+  line-height: 1.5;
+}
+
+.left > textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.left > textarea:focus {
+  border-color: var(--accent);
+}
+
+/* ─── Right Panel  (.panel--right → .right) ──────────────────── */
+.right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem;
+}
+
+/* Right panel heading — "Your Profile"
+   Injected above the first .input-group via ::before.
+*/
+.right > .input-group:first-child::before {
+  content: "👤  Your Profile";
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+/* ─── Input Groups ────────────────────────────────────────────── */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-group:last-of-type {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Section label  (.section-label → .input-group label) */
+.input-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+/* ─── Section Label (Upload Resume row) ──────────────────────── */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.15rem;
+  cursor: default;
+}
+
+/* "Best" badge pill next to Upload Resume label */
+.badge-best {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background-color: rgba(85, 230, 193, 0.12);
+  color: var(--accent);
+  border: 1px solid rgba(85, 230, 193, 0.3);
+  line-height: 1.4;
+}
+
+/* ─── Hidden native file input ────────────────────────────────── */
+/*
+  The real <input type="file"> is kept in the DOM for form submission
+  but is invisible. label.dropzone acts as the click target via htmlFor.
+*/
+.file-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+/* ─── Visual Dropzone  (label.dropzone) ───────────────────────── */
+/*
+  Matches SCSS .dropzone block exactly.
+  This <label htmlFor="resume"> acts as the visual + click target.
+*/
+.dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 1.75rem 1rem;
+  background-color: var(--bg-input);
+  border: 2px dashed var(--border-color);
+  border-radius: 0.6rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+  text-align: center;
+  user-select: none;
+}
+
+.dropzone:hover {
+  border-color: var(--accent);
+  background-color: rgba(85, 230, 193, 0.05);
+}
+
+/* Focus ring when keyboard-navigating to the hidden input */
+.file-hidden:focus + .dropzone,
+.dropzone:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(85, 230, 193, 0.12);
+}
+
+/* Upload cloud icon */
+.dropzone-icon {
+  font-size: 1.75rem;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 0.1rem;
+}
+
+/* "Click to upload or drag & drop" */
+.dropzone-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* "PDF only · Max 5MB" */
+.dropzone-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* "Self Description" label — prepend edit icon */
+.right > .input-group:last-of-type > label::before {
+  content: "✏️";
+  font-size: 0.875rem;
+  line-height: 1;
+}
+
+/* ─── Self-Description Textarea  (.panel__textarea--short) ───── */
+.input-group textarea {
+  width: 100%;
+  flex: 1;
+  min-height: 96px;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: var(--text-primary);
+  font-family: var(--font-stack);
+  font-size: 0.875rem;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s;
+  line-height: 1.5;
+}
+
+.input-group textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.input-group textarea:focus {
+  border-color: var(--accent);
+}
+
+/* ─── Generate Button (.generate-btn) ────────────────────────── */
+/*
+/* ─── Generate / Submit Button ────────────────────────────────── */
+/*
+  Matches auth.form.css `form button` exactly:
+    background: #55e6c1   color: #31554d   border-radius: 2px
+  Glow on hover uses the teal accent shadow.
+*/
+.generate-btn {
+  align-self: flex-end;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--accent);          /* #55e6c1 */
+  color: var(--accent-text);                /* #31554d */
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s, transform 0.1s;
+  font-family: var(--font-stack);
+  white-space: nowrap;
+}
+
+.generate-btn::before {
+  content: "✦";
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+.generate-btn:hover {
+  background-color: var(--accent-dark);     /* #43d4af */
+  box-shadow: 0 4px 20px rgba(85, 230, 193, 0.3);
+}
+
+.generate-btn:active {
+  transform: scale(0.98);
+  background-color: #38c49e;
+  box-shadow: 0 2px 8px rgba(85, 230, 193, 0.2);
+}
+
+.generate-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ─── Responsive — Tablet (≤ 768px) ───────────────────────────── */
+@media (max-width: 768px) {
+  .home {
+    padding: 2rem 1rem;
+    justify-content: flex-start;
+  }
+
+  .intervirew-input-group {
+    flex-direction: column;
+    min-height: unset;
+    border-radius: 0.75rem;
+  }
+
+  .left {
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    min-height: 280px;
+  }
+
+  .right {
+    gap: 0.75rem;
+  }
+
+  .generate-btn {
+    align-self: stretch;
+    justify-content: center;
+  }
+
+  /* Page header responsive — tablet */
+  .page-header h1 {
+    font-size: 1.85rem;
+  }
+}
+
+
+/* ─── Responsive — Mobile (≤ 480px) ───────────────────────────── */
+@media (max-width: 480px) {
+  .home {
+    padding: 1.25rem 0.75rem;
+    gap: 1.25rem;
+  }
+
+  .left,
+  .right {
+    padding: 1.1rem;
+  }
+
+  .left > textarea {
+    min-height: 180px;
+    font-size: 0.8rem;
+  }
+
+  .input-group textarea {
+    font-size: 0.8rem;
+  }
+
+  .generate-btn {
+    font-size: 0.85rem;
+    padding: 0.65rem 1.25rem;
+  }
+
+  /* Page header responsive — mobile */
+  .page-header h1 {
+    font-size: 1.6rem;
+  }
+}

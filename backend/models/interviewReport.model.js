@@ -1,5 +1,6 @@
-const mongoose = require('mongoose');
 
+
+const mongoose = require('mongoose');
 
 const technicalQuestionSchema = new mongoose.Schema({
     question: {
@@ -88,7 +89,7 @@ const interviewReportSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "users"
     },
-    title: {
+    jobTitle: {
         type: String,
         required: [ true, "Job title is required" ]
     }
