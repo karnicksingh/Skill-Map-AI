@@ -95,6 +95,39 @@
   color: var(--accent);
 }
 
+/* Header top row — title left, button right */
+.page-header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+}
+
+.prev-reports-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-family: var(--font-stack);
+  font-size: 0.8rem;
+  font-weight: 500;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s, background-color 0.2s;
+}
+
+.prev-reports-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background-color: rgba(85, 230, 193, 0.06);
+}
+
 /* ─── Interview Card  (.interview-card → .intervirew-input-group) */
 
 /*
@@ -410,6 +443,13 @@
 .generate-btn:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
+}
+
+.generate-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
 
 /* ─── Responsive — Tablet (≤ 768px) ───────────────────────────── */

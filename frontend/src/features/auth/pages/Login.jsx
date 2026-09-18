@@ -19,8 +19,6 @@ const [password, setPassword] = useState("");
  console.log("Login finished")
  navigate("/");
  }
-
-
   
     return (
         <main>

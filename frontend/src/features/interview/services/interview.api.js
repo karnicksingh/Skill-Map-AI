@@ -1,9 +1,9 @@
-const axios = require("axios");
-
+import axios from "axios";
 const api = axios.create({
   baseURL: "http://localhost:3000/api",
+   withCredentials: true,
   headers: {
-    "Content-Type": "application/json",
+    "Content-Type": "application/json"
   },
 });
 
@@ -12,16 +12,17 @@ const api = axios.create({
  * 
  * @description This function is responsible for generating interview report based on the resume, self description and job description provided by the user. It uses the interviewReportGenerator service to generate the report and saves it to the database.
  */
-export const generateInterviewReport = async ({resumeFile, selfDescription, jobDescription}) => {
+export const generateInterviewReport = async ({resume, selfDescription, jobDescription}) => {
 
 const formData = new FormData();
-formData.append("resume", resumeFile);
+formData.append("resume", resume);
 formData.append("selfDescription", selfDescription);
 formData.append("jobDescription", jobDescription);
 
-const response = await api.post("/api/interview", formData, {
+const response = await api.post("/interview/", formData, {
+   withCredentials: true,
   headers: {
-    "Content-Type": "multipart/form-data",
+    "Content-Type": "multipart/form-data"
   },
 });
 return response.data;
@@ -34,7 +35,7 @@ return response.data;
  */
 
 export const fetchInterviewReportById = async (interviewId) => {
-  const response = await api.get(`/api/interview/report/${interviewId}`);
+  const response = await api.get(`/interview/report/${interviewId}`);
   return response.data;
 };
 
@@ -45,7 +46,7 @@ export const fetchInterviewReportById = async (interviewId) => {
 
 
 export const getAllInterviewReports = async () => {
-  const response = await api.get("/api/interview");
+  const response = await api.get("/interview/");
   return response.data;
 };
 

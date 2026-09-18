@@ -1,0 +1,332 @@
+/*
+  reports.css — SkillMap AI
+  Previous Reports listing page.
+  Shares the same design tokens as home.css and interview.css.
+*/
+
+/* ─── Page Shell ──────────────────────────────────────────────── */
+.reports-page {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-stack);
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Header ──────────────────────────────────────────────────── */
+.reports-header {
+  padding: 1.25rem 2rem;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-card);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.reports-header-back {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  border-radius: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  font-family: var(--font-stack);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+
+.reports-header-back:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.reports-header-title {
+  flex: 1;
+}
+
+.reports-header-title h1 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.reports-header-title p {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 0.1rem;
+}
+
+/* ─── Body ────────────────────────────────────────────────────── */
+.reports-body {
+  flex: 1;
+  padding: 2rem;
+  max-width: 860px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ─── Section heading ─────────────────────────────────────────── */
+.reports-count {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.03em;
+}
+
+.reports-count span {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ─── Report Card ─────────────────────────────────────────────── */
+.report-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s, transform 0.15s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.report-card:hover {
+  border-color: rgba(85, 230, 193, 0.45);
+  background-color: rgba(85, 230, 193, 0.03);
+  transform: translateY(-1px);
+}
+
+.report-card:active {
+  transform: translateY(0);
+}
+
+/* Mini score ring */
+.report-score-ring {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  position: relative;
+}
+
+.report-score-svg {
+  width: 56px;
+  height: 56px;
+  transform: rotate(-90deg);
+}
+
+.report-score-bg {
+  fill: none;
+  stroke: var(--bg-panel);
+  stroke-width: 6;
+}
+
+.report-score-fill {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 132; /* 2π × 21 ≈ 132 */
+  transition: stroke-dashoffset 0.6s ease;
+}
+
+.report-score-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.report-score-value {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.report-score-pct {
+  font-size: 0.5rem;
+  color: var(--text-muted);
+  margin-top: 0.1rem;
+}
+
+/* Card main content */
+.report-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.report-card-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0.35rem;
+}
+
+.report-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.report-card-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Arrow chevron */
+.report-card-arrow {
+  flex-shrink: 0;
+  font-size: 1rem;
+  color: var(--text-muted);
+  transition: color 0.2s, transform 0.2s;
+}
+
+.report-card:hover .report-card-arrow {
+  color: var(--accent);
+  transform: translateX(3px);
+}
+
+/* ─── Skeleton ────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-panel) 25%,
+    rgba(85, 230, 193, 0.05) 50%,
+    var(--bg-panel) 75%
+  );
+  background-size: 600px 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 0.4rem;
+}
+
+.report-card-skeleton {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.skeleton-circle-sm {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.skeleton-lines {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.skeleton-line {
+  height: 0.8rem;
+  border-radius: 0.3rem;
+}
+
+.skeleton-line.short  { width: 35%; }
+.skeleton-line.medium { width: 60%; }
+.skeleton-line.long   { width: 80%; }
+
+/* ─── Empty / Error states ────────────────────────────────────── */
+.reports-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+  gap: 1rem;
+  text-align: center;
+}
+
+.reports-state-icon {
+  font-size: 2.75rem;
+  opacity: 0.65;
+}
+
+.reports-state-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.reports-state-msg {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  max-width: 340px;
+  line-height: 1.6;
+}
+
+.reports-state-btn {
+  margin-top: 0.25rem;
+  padding: 0.6rem 1.25rem;
+  background-color: var(--accent);
+  color: var(--accent-text);
+  border: none;
+  border-radius: 0.4rem;
+  font-family: var(--font-stack);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.reports-state-btn:hover {
+  background-color: var(--accent-dark);
+}
+
+/* ─── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .reports-header {
+    padding: 0.85rem 1rem;
+  }
+
+  .reports-body {
+    padding: 1.25rem 1rem;
+  }
+
+  .report-card {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .report-score-ring {
+    width: 48px;
+    height: 48px;
+  }
+
+  .report-score-svg {
+    width: 48px;
+    height: 48px;
+  }
+}

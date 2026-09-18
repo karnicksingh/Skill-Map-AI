@@ -1,0 +1,139 @@
+================================================================================
+SKILLMAP AI - COMPLETE SUMMARY OF FIXES & IMPLEMENTATIONS
+================================================================================
+
+1. OVERVIEW
+-----------
+This document summarizes all changes, bug fixes, and feature implementations
+made across the frontend and backend for the SkillMap AI project.
+
+
+================================================================================
+2. FRONTEND IMPLEMENTATIONS & FIXES
+================================================================================
+
+A. Interview Dashboard Page
+---------------------------
+- File: frontend/src/features/interview/pages/Interview.jsx (NEW)
+- File: frontend/src/features/interview/style/interview.css (NEW)
+- Details:
+  * Implemented the 3-column dashboard matching your design specification:
+    - Left Navigation: Tabs for Technical Questions, Behavioral Questions,
+      and Preparation Roadmap.
+    - Center Content: Dynamic content area that switches depending on active tab.
+      * Technical questions with intention badges and collapsible answer guidance.
+      * Behavioral questions with interviewer intention and answer approach.
+      * Chronological roadmap with timeline day markers and daily task lists.
+    - Right Sidebar:
+      * Circular SVG score ring displaying profile match score (report.matchScore).
+      * Skill gaps cards highlighting required missing skills with severity badges
+        (low, medium, high).
+  * Safe optional rendering (`report?.technicalQuestions?.map(...)`) so no crashes
+    occur when data is missing or empty.
+  * Professional loading skeleton and empty/error states.
+  * Fully responsive layout (desktop 3-column, tablet 2-column, mobile 1-column).
+
+B. Previous Reports Page
+------------------------
+- File: frontend/src/features/interview/pages/Reports.jsx (NEW)
+- File: frontend/src/features/interview/style/reports.css (NEW)
+- Details:
+  * Implemented full Previous Reports listing page.
+  * Fetches all reports belonging to the logged-in user using
+    `handleGetAllInterviewReports()`.
+  * Renders list of previous report cards with mini score rings, job titles,
+    creation dates, and match percentages.
+  * Clicking any report card navigates directly to `/interview/:interviewId` to
+    view full preparation details.
+
+C. Router Configuration
+-----------------------
+- File: frontend/src/app.router.jsx
+- Details:
+  * Imported `Reports.jsx`.
+  * Added route: `/reports` protected with `<Protected><Reports /></Protected>`.
+
+D. Home Page Updates
+--------------------
+- File: frontend/src/features/interview/pages/Home.jsx
+- File: frontend/src/features/interview/style/home.css
+- Details:
+  * Added "📋 Previous Reports" button in the top-right header linking to `/reports`.
+  * Updated submit button to show loading state:
+    - Displays "✦ Generating..." and disables button while waiting for AI response.
+    - Displays "✦ Submit" when idle.
+  * Fixed navigation after generation:
+    - Changed `navigate(`/interview/${data._id}`)` to
+      `navigate(`/interview/${data?.data?._id}`)` to account for the backend
+      wrapping response inside `{ message, data: { ... } }`.
+
+E. Interview API Service Fix
+----------------------------
+- File: frontend/src/features/interview/services/interview.api.js
+- Details:
+  * BUG: The function destructured `{ resumeFile, selfDescription, jobDescription }`
+    while the hook passed `{ resume, selfDescription, jobDescription }`.
+    This caused `resumeFile` to be `undefined`, so `formData.append("resume", undefined)`
+    was sent to the backend without any actual file.
+  * FIX: Renamed `resumeFile` to `resume` to match hook arguments.
+
+F. useInterview Hook Fix
+------------------------
+- File: frontend/src/features/interview/hooks/useInterview.js
+- Details:
+  * BUG: `handleGenerateInterviewReport` didn't return `data`. Callers like
+    `Home.jsx` received `undefined` when trying to read `data._id`.
+  * FIX: Added `return data;` inside `handleGenerateInterviewReport`.
+
+
+================================================================================
+3. BACKEND FIXES
+================================================================================
+
+A. PDF Parser Integration
+-------------------------
+- File: backend/controllers/interview.controller.js
+- Details:
+  * BUG: The project uses `pdf-parse` v2 (`^2.4.5`), which exports a named class
+    `PDFParse` rather than a default function.
+  * FIX:
+    - Imported correctly: `const { PDFParse } = require("pdf-parse");`
+    - Instantiated correctly:
+      `const parser = new PDFParse({ data: req.file.buffer });`
+      `const result = await parser.getText();`
+      `const resumeContent = result.text;`
+
+B. Missing User ID on Report Creation (MongoDB Atlas Fix)
+---------------------------------------------------------
+- File: backend/controllers/interview.controller.js
+- Details:
+  * BUG: When generating a report, `interviewReportModel.create()` was called
+    without attaching the user's ID (`req.user.id`).
+    As a result, reports were saved into MongoDB Atlas with `user: undefined` / `null`.
+    When the user visited Previous Reports (`getAllInterviewReportsController`),
+    the query `{ user: req.user.id }` returned 0 reports because no reports had
+    a matching user ID.
+  * FIX: Added `user: req.user.id` to `interviewReportModel.create({...})`.
+    Now all generated reports are linked to the authenticated user's MongoDB `_id`.
+
+C. Migration Script for Legacy/Orphaned Reports
+-----------------------------------------------
+- File: backend/fix-orphaned-reports.js (NEW)
+- Details:
+  * Utility script to backfill `user: <userId>` onto any historical reports
+    that had `user: null` in MongoDB Atlas.
+
+
+================================================================================
+4. VERIFICATION WORKFLOW
+================================================================================
+1. Login/Register to SkillMap AI.
+2. Go to Home (`/`).
+3. Upload Resume PDF, provide Job Description & Self Description.
+4. Click Submit -> Button changes to "✦ Generating...".
+5. Backend parses PDF, prompts Gemini AI, saves report to MongoDB Atlas with
+   your user ID, and returns the report.
+6. Frontend navigates to `/interview/:interviewId` and displays full dashboard.
+7. Click "Previous Reports" -> View all previously saved reports linked to
+   your account.
+================================================================================

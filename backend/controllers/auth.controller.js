@@ -2,7 +2,9 @@ const userModel = require("../models/user.js")
 const {redisClient} = require("../config/redis.js")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const {Resend }= require("resend");
 
+ resend = new Resend(process.env.RESEND_API_KEY);
 
 /** @name registerUserController
  * @description Controller for registering a new user
@@ -144,12 +146,25 @@ async function sendOtp(req,res){
     EX:300 // 5 minutes
    })
 
+
+await resend.emails.send({
+    from: 'SkilMap AI <onboarding@resend.dev>',
+    to: [email],
+    subject: 'Your SkillMap AI OTP Code',
+    html: `<h2>SkillMap AI </h2>
+    <p>Your OTP is:</p>
+    <h1>${otp}</h1>
+    <p>This OTP is valid for 5 minutes.</p>
+    <p>please do not share this OTP with anyone.</p>`,
+  });
+
+
 //    console.log(`OTP for ${email} is ${otp}`)
 
    res.status(200).json({
     success:true,
     message:"OTP is sent to your email",
-    otp:otp
+    // otp:otp
    })
 }
 /***

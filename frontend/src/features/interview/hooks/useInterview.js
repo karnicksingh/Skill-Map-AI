@@ -1,4 +1,4 @@
-import{ getInterviewReportById ,  fetchInterviewReportById ,generateInterviewReport} from "../api/interview.api.js"
+import{ fetchInterviewReportById ,generateInterviewReport,getAllInterviewReports} from "../services/interview.api.js"
 import {InterviewContext} from "../interview.context.jsx"
 import { toast } from "sonner";
 import { useState ,useContext } from "react";
@@ -19,6 +19,7 @@ export const useInterview = () => {
         try{
             const data = await generateInterviewReport({resume, selfDescription, jobDescription});
             setInterviewReport(data);
+            return data; // Return data so callers can navigate using the created report's _id
         } catch (error) {
             console.error("Error generating interview report:", error);
             throw error; // Rethrow the error to be handled by the caller
