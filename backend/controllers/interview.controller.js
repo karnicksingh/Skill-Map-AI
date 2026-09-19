@@ -9,7 +9,6 @@ const interviewReportModel=require("../models/interviewReport.model.js");
 
 
 
-
 /**
  * @name intervew report generator controller
  * @description This controller is responsible for generating interview report based on the resume, self description and job description provided by the user. It uses the interviewReportGenerator service to generate the report and saves it to the database.

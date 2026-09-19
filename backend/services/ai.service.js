@@ -216,9 +216,9 @@ ${jobDescription}
 
 
 async function generatePdfFromHtml(htmlContent) {
-    const browser = await puppeteer.launch()
+    const browser = await puppeteer.launch({channel: "chrome", headless: true});
     const page = await browser.newPage();
-    await page.setContent(htmlContent, { waitUntil: "networkidle0" })
+    await page.setContent(htmlContent, { waitUntil: "domcontentloaded" })
 
     const pdfBuffer = await page.pdf({
         format: "A4", margin: {
@@ -237,16 +237,17 @@ async function generatePdfFromHtml(htmlContent) {
 
 async function generateResumePdf({jobDescription, selfDescription, resume}) {
 
-    const resumePdfSchema = {
-        type: "OBJECT",
-        properties: {
-            resumePdf: {
-                type: "STRING",
-                description: "THE html content is converted to pfd using  puppeteer and then converted to base64 string and returned as resumePdf"
-            }
-        },
-        required: [ "resumePdf" ]
-    };
+  const resumePdfSchema = {
+    type: "OBJECT",
+    properties: {
+        html: {
+            type: "STRING",
+            description:
+                "Complete HTML content for the tailored resume. This HTML will be converted to a PDF using Puppeteer."
+        }
+    },
+    required: ["html"]
+};
 
 
     const prompt = `
