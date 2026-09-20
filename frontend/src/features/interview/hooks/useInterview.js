@@ -1,4 +1,4 @@
-import{ fetchInterviewReportById ,generateInterviewReport,getAllInterviewReports, generateResumePdf} from "../services/interview.api.js"
+import{ fetchInterviewReportById ,generateInterviewReport,getAllInterviewReports,generateResumePdf} from "../services/interview.api.js"
 import {InterviewContext} from "../interview.context.jsx"
 import { toast } from "sonner";
 import { useState ,useContext } from "react";
@@ -41,7 +41,6 @@ export const useInterview = () => {
             setLoading(false);
         }
     }
-
     const handleGetAllInterviewReports = async () => {
         setLoading(true);
         try{
@@ -55,22 +54,27 @@ export const useInterview = () => {
         }
     }
 
+
     const handleGenerateResumePdf = async (interviewId) => {
-        try {
-            toast.loading("Generating PDF…");
-            await generateResumePdf(interviewId);
-            toast.dismiss();
-            toast.success("PDF downloaded successfully!");
+        setLoading(true);
+        try{
+            const pdfBlob = await generateResumePdf(interviewId);
+            const url = window.URL.createObjectURL(new Blob([pdfBlob], { type: 'application/pdf' }));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `${interviewId}_resume.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode.removeChild(link);
         } catch (error) {
-            toast.dismiss();
-            toast.error("Failed to generate PDF. Please try again.");
             console.error("Error generating resume PDF:", error);
+            throw error; // Rethrow the error to be handled by the caller
+        } finally {
+            setLoading(false);
         }
     }
 
     return {interviewReport, setInterviewReport, interviewReports, setInterviewReports, loading, setLoading, handleGenerateInterviewReport, handleFetchInterviewReportById, handleGetAllInterviewReports, handleGenerateResumePdf};
 
 }
-
-
 
