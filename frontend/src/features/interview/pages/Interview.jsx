@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router";
 import { useInterview } from "../hooks/useInterview.js";
 import "../style/interview.css";
 
+
 /* ─── Circular Score Ring ─────────────────────────────────────── */
 function ScoreRing({ score }) {
   // Circumference of circle with r=45: 2π×45 ≈ 283
@@ -264,7 +265,6 @@ export default function Interview() {
     interviewReport,
     loading,
     handleFetchInterviewReportById,
-    handleGenerateResumePdf,
   } = useInterview();
 
   const [activeTab, setActiveTab] = useState("technical");
@@ -425,19 +425,12 @@ export default function Interview() {
               {tab.label}
             </button>
           ))}
-
-          {/* Spacer pushes the PDF button to the bottom */}
-          <div style={{ flex: 1 }} />
-
-          <div className="sidebar-pdf-wrapper">
-            <button
-              className="sidebar-pdf-btn"
-              onClick={() => handleGenerateResumePdf(interviewId)}
-            >
-              <span className="nav-icon">📄</span>
-              Generate PDF
-            </button>
-          </div>
+          <button
+            className="sidebar-nav-btn"
+            onClick={() => handleGenerateResumePdf(interviewId)}
+          >
+            <span className="nav-icon">📄</span>  
+          </button>
         </nav>
 
         {/* Main Content */}
