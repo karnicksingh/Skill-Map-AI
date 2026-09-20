@@ -3,13 +3,22 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors")
 const app = express()
 
+const isProd = process.env.NODE_ENV === "production";
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL,
     credentials: true,
 }))
+
+// Make cookie config available app-wide
+app.locals.cookieOptions = {
+    httpOnly: true,
+    secure: isProd,           // true in production (HTTPS only)
+    sameSite: isProd ? "None" : "Lax",
+    maxAge: 24 * 60 * 60 * 1000, // 1 day in ms
+};
 
 const authRouter = require("./routes/auth.routes.js")
 
@@ -22,4 +31,4 @@ app.use("/api/interview",interviewRouter)
 
 
 
-module.exports =app ;
+module.exports = app;

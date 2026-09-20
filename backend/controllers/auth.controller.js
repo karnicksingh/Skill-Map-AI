@@ -43,7 +43,7 @@ async function registerUserController(req,res){
     process.env.JWT_SECRET_KEY,
     {expiresIn:"1d"}
  )
-   res.cookie("token",token)
+   res.cookie("token", token, req.app.locals.cookieOptions)
 
    res.status(201).json({
     success:true,
@@ -97,7 +97,7 @@ async function loginUserController(req,res){
     {expiresIn:"1d"}
  )
 
-   res.cookie("token",token)
+   res.cookie("token", token, req.app.locals.cookieOptions)
 
    res.status(201).json({
     success:true,
@@ -214,7 +214,7 @@ async function verifyOtp(req,res){
         {expiresIn:"1d"}
      )
     
-       res.cookie("token",token)
+       res.cookie("token", token, req.app.locals.cookieOptions)
     
        res.status(201).json({
         success:true,
