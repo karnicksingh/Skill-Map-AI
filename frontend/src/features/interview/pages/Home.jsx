@@ -2,11 +2,13 @@ import React from 'react'
 import { useState,useRef } from "react";
 import "../style/home.css"
 import{ useInterview } from "../hooks/useInterview.js"
+import { useAuth } from '../../auth/hooks/useAuth.js'
 import {useNavigate} from "react-router"
 
 const Home = () => {
- 
+const{handleLogout} = useAuth();
 const{loading, handleGenerateInterviewReport} = useInterview();
+ 
     const[jobDescription, setJobDescription] = useState("");
     const[selfDescription, setSelfDescription] = useState("");
    const resumeInputRef = useRef(null);
@@ -88,11 +90,15 @@ const{loading, handleGenerateInterviewReport} = useInterview();
             <button className="generate-btn" onClick={handleGenerateReport} disabled={loading}>
               {loading ? "✦ Generating..." : "✦ Submit"}
             </button>
+
+            
         </div>
 
 
         </div>
-
+<button className="logout-btn" onClick={handleLogout}>
+              Logout
+            </button>
     </main>
 
   )

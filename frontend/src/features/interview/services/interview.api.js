@@ -54,4 +54,23 @@ export const getAllInterviewReports = async () => {
 
 
 
+/**
+ * @description Fetches the AI-generated PDF resume for the given interviewId
+ * and triggers a browser download.
+ */
+export const generateResumePdf = async (interviewId) => {
+  const response = await api.get(`/interview/resume/${interviewId}`, {
+    responseType: "blob",
+  });
+  // Build a temporary object URL and click it to download
+  const url = window.URL.createObjectURL(new Blob([response.data], { type: "application/pdf" }));
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", `${interviewId}_resume.pdf`);
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  window.URL.revokeObjectURL(url);
+};
+
 export default api;

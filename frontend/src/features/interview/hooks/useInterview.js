@@ -1,4 +1,4 @@
-import{ fetchInterviewReportById ,generateInterviewReport,getAllInterviewReports} from "../services/interview.api.js"
+import{ fetchInterviewReportById ,generateInterviewReport,getAllInterviewReports, generateResumePdf} from "../services/interview.api.js"
 import {InterviewContext} from "../interview.context.jsx"
 import { toast } from "sonner";
 import { useState ,useContext } from "react";
@@ -41,6 +41,7 @@ export const useInterview = () => {
             setLoading(false);
         }
     }
+
     const handleGetAllInterviewReports = async () => {
         setLoading(true);
         try{
@@ -54,7 +55,22 @@ export const useInterview = () => {
         }
     }
 
-    return {interviewReport, setInterviewReport, interviewReports, setInterviewReports, loading, setLoading, handleGenerateInterviewReport, handleFetchInterviewReportById, handleGetAllInterviewReports};
+    const handleGenerateResumePdf = async (interviewId) => {
+        try {
+            toast.loading("Generating PDF…");
+            await generateResumePdf(interviewId);
+            toast.dismiss();
+            toast.success("PDF downloaded successfully!");
+        } catch (error) {
+            toast.dismiss();
+            toast.error("Failed to generate PDF. Please try again.");
+            console.error("Error generating resume PDF:", error);
+        }
+    }
+
+    return {interviewReport, setInterviewReport, interviewReports, setInterviewReports, loading, setLoading, handleGenerateInterviewReport, handleFetchInterviewReportById, handleGetAllInterviewReports, handleGenerateResumePdf};
 
 }
+
+
 

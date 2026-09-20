@@ -22,7 +22,7 @@ const{selfDescription,jobDescription}=req.body;
 
 console.log("[Generate] req.user:", req.user);
 
-const interviewReport=await interviewReportGenerator(resumeContent,selfDescription,jobDescription);
+const interviewReport=await interviewReportGenerator({resumeContent,selfDescription,jobDescription});
 
 const interviewReportData= await interviewReportModel.create({
     jobDescription:jobDescription,
@@ -102,7 +102,7 @@ async function getAllInterviewReportsController(req, res) {
     });
    }
    const{resume, selfDescription, jobDescription}=interviewReport;
-    const pdfBuffer=await generateResumePdf(resume, selfDescription, jobDescription);
+    const pdfBuffer=await generateResumePdf({resume, selfDescription, jobDescription});
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', `attachment; filename=${interviewId}_resume.pdf`);
     res.send(pdfBuffer);

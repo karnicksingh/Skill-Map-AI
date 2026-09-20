@@ -5,6 +5,7 @@ import { useAuth } from '../hooks/useAuth.js'
 import {toast} from "sonner"
 
 import "./auth.form.css";
+import "./auth.layout.css";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -21,57 +22,99 @@ const [password, setPassword] = useState("");
  }
   
     return (
-        <main>
-            <div className="form-container">
+        <div className="auth-page">
 
-                <div className="small-text">
-                    sign in
+          {/* ── Left decorative panel ── */}
+          <div className="auth-left">
+            <div className="auth-left-brand">
+              Skill<span>Map</span> AI
+            </div>
+
+            <div className="auth-left-hero">
+              <h2 className="auth-left-heading">
+                Your résumé,<br />
+                <em>structured & smart.</em>
+              </h2>
+
+              <div style={{ position: "relative" }}>
+                <div className="auth-card-glow" />
+                <div className="auth-resume-card">
+                  <span className="auth-resume-card-badge">[ AI analysed ]</span>
+                  <div className="auth-resume-card-title">Your résumé, structured</div>
+                  <div className="auth-resume-card-sub">name · experience · skills · education</div>
+                  <div className="auth-resume-card-lines">
+                    <div className="auth-resume-line long" />
+                    <div className="auth-resume-line medium" />
+                    <div className="auth-resume-line short" />
+                    <div className="auth-resume-line long" />
+                    <div className="auth-resume-line medium" />
+                  </div>
                 </div>
+              </div>
+            </div>
 
-                <h1>Welcome back</h1>
+            <div className="auth-left-footer">
+              <p>
+                Sign in once, then let the agent{" "}
+                <strong>tailor and re-tailor</strong> your résumé for every
+                job you apply to — without starting from scratch each time.
+              </p>
+            </div>
+          </div>
 
-            
-                <form onSubmit={handleSubmit}>
+          {/* ── Right panel  ── */}
+          <div className="auth-right">
+            <main>
+                <div className="form-container">
 
-                    <div className="input-group">
-                        <label htmlFor="email">
-                            Email
-                        </label>
-
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            placeholder="you@example.com"
-                            value={email}
-                            onChange={(e)=> setEmail(e.target.value)}
-                        />
+                    <div className="small-text">
+                        sign in
                     </div>
 
-                    <div className="input-group">
-                        <label htmlFor="password">
-                            Password
-                        </label>
+                    <h1>Welcome back</h1>
 
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            placeholder="••••••••"
-                            value={password}
-                            onChange={(e)=> setPassword(e.target.value)}
-                        />
-                    </div>
+                
+                    <form onSubmit={handleSubmit}>
 
-                    <div className="form-options">
+                        <div className="input-group">
+                            <label htmlFor="email">
+                                Email
+                            </label>
 
-                        <a href="#">
-                            Forgot password?
-                        </a>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="you@example.com"
+                                value={email}
+                                onChange={(e)=> setEmail(e.target.value)}
+                            />
+                        </div>
 
-                    </div>
+                        <div className="input-group">
+                            <label htmlFor="password">
+                                Password
+                            </label>
 
-                   <button type="submit" disabled={loading}>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="••••••••"
+                                value={password}
+                                onChange={(e)=> setPassword(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="form-options">
+
+                            <a href="#">
+                                Forgot password?
+                            </a>
+
+                        </div>
+
+                       <button type="submit" disabled={loading}>
     {loading ? (
         <>
             <span className="spinner"></span>
@@ -81,22 +124,25 @@ const [password, setPassword] = useState("");
         "Sign in"
     )}
 </button>
-                </form>
+                    </form>
 
-                <div className="divider">
-                    <span>or</span>
+                    <div className="divider">
+                        <span>or</span>
+                    </div>
+
+                    <button className="google-button">
+                        Continue with Google
+                    </button>
+
+                    <div className="register-text">
+                        <p> New here? <Link to="/register">Create an account</Link> </p>
+                    </div>
+
                 </div>
+            </main>
+          </div>
 
-                <button className="google-button">
-                    Continue with Google
-                </button>
-
-                <div className="register-text">
-                    <p> New here? <Link to="/register">Create an account</Link> </p>
-                </div>
-
-            </div>
-        </main>
+        </div>
     );
 };
 

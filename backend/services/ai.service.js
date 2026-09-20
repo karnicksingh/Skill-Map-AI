@@ -250,33 +250,75 @@ async function generateResumePdf({jobDescription, selfDescription, resume}) {
 };
 
 
-    const prompt = `
-You are an AI assistant that generates a html document from the provided resume, self-description, and job description.
+const prompt = `
+You are an expert resume writer, ATS optimizer, and professional resume designer.
 
-make it ats friendly and visually appealing.
+Create a polished, modern, ATS-friendly resume in HTML using the candidate's
+resume, self-description, and the target job description provided below.
 
-The html document should be well-formatted and visually appealing.
+CORE RULES:
+1. Use the candidate's actual information. Never invent or replace personal
+   details, companies, education, dates, skills, projects, achievements, or links.
+2. Never use placeholders such as "Candidate", "Company Name",
+   "candidate@example.com", "University Name", or "Skill 1".
+3. Do not add technologies or experience that are not supported by the
+   candidate's information.
+4. Tailor the resume to the job description by highlighting the candidate's
+   existing skills, experience, and projects that are most relevant.
+5. You may rewrite existing content to make it clearer, stronger, and more
+   professional, but do not change its factual meaning.
+6. Create a concise professional summary based on the candidate's real
+   background and the target role.
 
+RESUME STRUCTURE:
+Use appropriate sections such as:
+- Professional Summary
+- Technical Skills
+- Experience
+- Projects
+- Education
+- Certifications
+- Achievements
 
-make accding to job description and self description and resume provided by the user.
+Only include sections for which actual information is available.
 
--------------------------
-CANDIDATE RESUME
--------------------------
+DESIGN:
+Create a clean, modern, professional software-engineering resume.
+Use a strong visual hierarchy, readable typography, consistent spacing,
+professional section headings, subtle separators, and a minimal accent color.
 
+The resume must:
+- Be optimized for A4 PDF printing.
+- Be ATS-friendly and easy to parse.
+- Have good margins and spacing.
+- Avoid excessive colors and decorative elements.
+- Avoid tables for the main layout.
+- Avoid skill bars, percentage charts, graphics, and unnecessary icons.
+- Avoid large empty spaces.
+- Keep important information from being split awkwardly across pages.
+
+HTML REQUIREMENTS:
+- Return a complete HTML document.
+- Put all CSS inside the HTML.
+- Do not use external CSS, JavaScript, images, or fonts.
+- The HTML must work offline in Puppeteer.
+- Return ONLY the HTML document, without Markdown or explanation.
+
+IMPORTANT:
+The job description tells you what the employer wants, but the candidate's
+resume tells you what the candidate actually has. Never sacrifice factual
+accuracy just to match the job description.
+
+CANDIDATE RESUME:
 ${resume}
 
--------------------------
-SELF DESCRIPTION
--------------------------
-
+SELF DESCRIPTION:
 ${selfDescription}
 
--------------------------
-JOB DESCRIPTION
--------------------------
-
+JOB DESCRIPTION:
 ${jobDescription}
+
+Now create the final tailored resume as complete HTML.
 `;
 
     const response = await ai.models.generateContent({

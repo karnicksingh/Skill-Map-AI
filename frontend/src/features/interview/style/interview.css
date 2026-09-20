@@ -151,6 +151,43 @@
   flex-shrink: 0;
 }
 
+/* ─── Bottom-pinned Generate PDF button ───────────────────────── */
+.sidebar-pdf-wrapper {
+  padding: 1rem 0.75rem;
+  border-top: 1px solid rgba(137, 145, 143, 0.2);
+}
+
+.sidebar-pdf-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.65rem 1rem;
+  background-color: rgba(85, 230, 193, 0.1);
+  border: 1px solid rgba(85, 230, 193, 0.3);
+  border-radius: 0.5rem;
+  color: var(--accent);
+  font-family: var(--font-stack);
+  font-size: 0.83rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+  text-align: left;
+}
+
+.sidebar-pdf-btn:hover {
+  background-color: rgba(85, 230, 193, 0.2);
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+
+.sidebar-pdf-btn .nav-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+
+
 /* ─── Main Content Area ───────────────────────────────────────── */
 .interview-main {
   padding: 2rem;

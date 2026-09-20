@@ -264,6 +264,7 @@ export default function Interview() {
     interviewReport,
     loading,
     handleFetchInterviewReportById,
+    handleGenerateResumePdf,
   } = useInterview();
 
   const [activeTab, setActiveTab] = useState("technical");
@@ -424,6 +425,19 @@ export default function Interview() {
               {tab.label}
             </button>
           ))}
+
+          {/* Spacer pushes the PDF button to the bottom */}
+          <div style={{ flex: 1 }} />
+
+          <div className="sidebar-pdf-wrapper">
+            <button
+              className="sidebar-pdf-btn"
+              onClick={() => handleGenerateResumePdf(interviewId)}
+            >
+              <span className="nav-icon">📄</span>
+              Generate PDF
+            </button>
+          </div>
         </nav>
 
         {/* Main Content */}

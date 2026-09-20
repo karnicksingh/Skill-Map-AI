@@ -2,6 +2,7 @@ import { useState } from 'react'
 import {useNavigate , Link} from "react-router"
 import  { useAuth } from '../hooks/useAuth.js'
 import "./auth.form.css";
+import "./auth.layout.css";
 
 
 const Register =() => {
@@ -23,67 +24,109 @@ const Register =() => {
 
   
     return (
-        <main>
-            <div className="form-container">
+        <div className="auth-page">
 
-                <div className="small-text">
-                    sign up
+          {/* ── Left decorative panel ── */}
+          <div className="auth-left">
+            <div className="auth-left-brand">
+              Skill<span>Map</span> AI
+            </div>
+
+            <div className="auth-left-hero">
+              <h2 className="auth-left-heading">
+                Your résumé,<br />
+                <em>structured & smart.</em>
+              </h2>
+
+              <div style={{ position: "relative" }}>
+                <div className="auth-card-glow" />
+                <div className="auth-resume-card">
+                  <span className="auth-resume-card-badge">[ awaiting upload ]</span>
+                  <div className="auth-resume-card-title">Your résumé, structured</div>
+                  <div className="auth-resume-card-sub">name · experience · skills · education</div>
+                  <div className="auth-resume-card-lines">
+                    <div className="auth-resume-line long" />
+                    <div className="auth-resume-line medium" />
+                    <div className="auth-resume-line short" />
+                    <div className="auth-resume-line long" />
+                    <div className="auth-resume-line medium" />
+                  </div>
                 </div>
+              </div>
+            </div>
 
-              <h1>Create an account</h1>
+            <div className="auth-left-footer">
+              <p>
+                Set up an account once, then let the agent{" "}
+                <strong>tailor and re-tailor</strong> your résumé for every
+                job you apply to — without starting from scratch each time.
+              </p>
+            </div>
+          </div>
 
-            
-                <form onSubmit={handleSubmit}>
+          {/* ── Right panel — existing form (untouched) ── */}
+          <div className="auth-right">
+            <main>
+                <div className="form-container">
 
-                    <div className="input-group">
-                        <label htmlFor="username">
-                            Username
-                        </label>
-
-                        <input
-                            type="text"
-                            id="username"
-                            name="username"
-                            placeholder="Enter your username"
-                            value={username}
-                            onChange={(e)=> setUsername(e.target.value)}
-                        />
-                    </div>
-                    <div className="input-group">
-                        <label htmlFor="email">
-                            Email
-                        </label>
-
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            placeholder="you@example.com"
-                            value={email}
-                            onChange={(e)=> setEmail(e.target.value)}
-                            
-                        />
+                    <div className="small-text">
+                        sign up
                     </div>
 
-                    <div className="input-group">
-                        <label htmlFor="password">
-                            Password
-                        </label>
+                  <h1>Create an account</h1>
 
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            placeholder="••••••••"
-                            value={password}
-                            onChange={(e)=> setPassword(e.target.value)}
-                        />
-                    </div>
+                
+                    <form onSubmit={handleSubmit}>
 
-                    <div className="form-options">
-                    </div>
+                        <div className="input-group">
+                            <label htmlFor="username">
+                                Username
+                            </label>
 
-                   <button type="submit" disabled={loading}>
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                placeholder="Enter your username"
+                                value={username}
+                                onChange={(e)=> setUsername(e.target.value)}
+                            />
+                        </div>
+                        <div className="input-group">
+                            <label htmlFor="email">
+                                Email
+                            </label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="you@example.com"
+                                value={email}
+                                onChange={(e)=> setEmail(e.target.value)}
+                                
+                            />
+                        </div>
+
+                        <div className="input-group">
+                            <label htmlFor="password">
+                                Password
+                            </label>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="••••••••"
+                                value={password}
+                                onChange={(e)=> setPassword(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="form-options">
+                        </div>
+
+                       <button type="submit" disabled={loading}>
     {loading ? (
         <>
             <span className="spinner"></span>
@@ -93,29 +136,33 @@ const Register =() => {
         "Sign up"
     )}
 </button>
-                </form>
+                    </form>
 
-                <div className="divider">
-                    <span>or</span>
+                    <div className="divider">
+                        <span>or</span>
+                    </div>
+
+
+                    <button className="google-button">
+                        Continue with Google
+                    </button>
+
+
+
+                  <div className='login-text'>
+                   <p> Already have an account? <Link to="/login">Sign in</Link> </p>
+                  </div>
+
+                   
+
                 </div>
+            </main>
+          </div>
 
-
-                <button className="google-button">
-                    Continue with Google
-                </button>
-
-
-
-              <div className='login-text'>
-               <p> Already have an account? <Link to="/login">Sign in</Link> </p>
-              </div>
-
-               
-
-            </div>
-        </main>
+        </div>
     );
 }
 
 
 export default Register;
+
