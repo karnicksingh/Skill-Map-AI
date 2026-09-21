@@ -7,8 +7,9 @@ const isProd = process.env.NODE_ENV === "production";
 
 app.use(express.json());
 app.use(cookieParser());
+const allowedOrigins = ["https://skill-map-ai.in", "https://www.skill-map-ai.in"];
 app.use(cors({
-    origin: process.env.CLIENT_URL,
+    origin: allowedOrigins,
     credentials: true,
 }))
 
