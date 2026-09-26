@@ -31,7 +31,7 @@ const interviewRouter = require("./routes/interview.routes.js")
 app.use("/api/interview",interviewRouter)
 
 app.get("/api/test", (req, res) => {
-    res.send("Welcome to the Skill Map AI");
+    res.send("Welcome to the Skill Map AI !!!!");
 });
 
 

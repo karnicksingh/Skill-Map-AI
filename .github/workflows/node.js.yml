@@ -63,6 +63,8 @@ jobs:
             -p 3000:3000 \
             skillmap-backend:latest
 
+
+
       # 8. Verify container
       - name: Verify deployment
         run: |
