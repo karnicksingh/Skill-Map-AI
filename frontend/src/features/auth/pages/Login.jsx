@@ -112,6 +112,10 @@ const [password, setPassword] = useState("");
                                 Forgot password?
                             </a>
 
+                            <Link to="/login/otp">
+                                Sign in with OTP
+                            </Link>
+
                         </div>
 
                        <button type="submit" disabled={loading}>

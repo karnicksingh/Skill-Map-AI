@@ -1,0 +1,108 @@
+/*
+  otp-login.css — SkillMap AI
+  OTP-specific styles only. Layout/form base comes from
+  auth.layout.css and auth.form.css.
+*/
+
+/* ── spinner (reused from Login) ── */
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(49, 85, 77, 0.4);
+  border-top-color: #31554d;
+  border-radius: 50%;
+  animation: spin 0.65s linear infinite;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── email highlight inside description ── */
+.otp-email-highlight {
+  color: #55e6c1;
+  font-weight: 600;
+}
+
+/* ── 6-box OTP input row ── */
+.otp-boxes-group {
+  margin-bottom: 28px;
+}
+
+.otp-boxes-label {
+  display: block;
+  font-family: monospace;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.otp-boxes {
+  display: flex;
+  gap: 10px;
+}
+
+.otp-box {
+  width: 52px;
+  height: 60px;
+  background-color: #343B39;
+  color: #ffffff;
+  border: 1px solid #89918f;
+  border-radius: 2px;
+  font-family: monospace;
+  font-size: 22px;
+  text-align: center;
+  caret-color: #55e6c1;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.otp-box:focus {
+  border-color: #55e6c1;
+}
+
+.otp-box:not(:placeholder-shown) {
+  border-color: #55e6c1aa;
+}
+
+/* ── resend row ── */
+.otp-resend {
+  margin-top: 20px;
+  font-family: monospace;
+  font-size: 13px;
+  color: #89918f;
+  text-align: center;
+}
+
+.otp-resend-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: monospace;
+  font-size: 13px;
+  color: #55e6c1;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.otp-resend-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ── responsive: shrink boxes on small screens ── */
+@media (max-width: 480px) {
+  .otp-box {
+    width: 40px;
+    height: 50px;
+    font-size: 18px;
+  }
+
+  .otp-boxes {
+    gap: 7px;
+  }
+}

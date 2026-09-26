@@ -7,7 +7,7 @@ const isProd = process.env.NODE_ENV === "production";
 
 app.use(express.json());
 app.use(cookieParser());
-const allowedOrigins = ["https://skill-map-ai.in", "https://www.skill-map-ai.in"];
+const allowedOrigins = ["https://skill-map-ai.in", "https://www.skill-map-ai.in","http://localhost:3000", "http://localhost:5173"];
 app.use(cors({
     origin: allowedOrigins,
     credentials: true,
@@ -29,6 +29,10 @@ app.use("/api/auth",authRouter)
 const interviewRouter = require("./routes/interview.routes.js")
 
 app.use("/api/interview",interviewRouter)
+
+app.get("/api/test", (req, res) => {
+    res.send("Welcome to the Skill Map AI");
+});
 
 
 

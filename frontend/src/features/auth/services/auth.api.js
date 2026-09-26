@@ -62,7 +62,7 @@ export async function logout(){
 }
 
 
-export async function getUser(){ 
+export async function getUser(){
     try{
         const response = await api.get('/get-user');
 
@@ -70,5 +70,27 @@ export async function getUser(){
 
      }catch(error){
         console.error('Error getting user:', error);
+    }
+}
+
+
+export async function sendOtp({ email }) {
+    try {
+        const response = await api.post('/send-otp', { email });
+        return response.data;
+    } catch (error) {
+        console.error('Error sending OTP:', error);
+        throw error;
+    }
+}
+
+
+export async function verifyOtp({ email, otp }) {
+    try {
+        const response = await api.post('/verify-otp', { email, otp });
+        return response.data;
+    } catch (error) {
+        console.error('Error verifying OTP:', error);
+        throw error;
     }
 }

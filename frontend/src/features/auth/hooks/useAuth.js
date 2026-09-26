@@ -1,6 +1,6 @@
 import { AuthContext } from "../auth.context";
 
-import {login, register, logout, getUser} from "../services/auth.api";
+import {login, register, logout, getUser,sendOtp,verifyOtp} from "../services/auth.api";
 
 import { useContext , useEffect } from "react";
  import {toast} from "sonner";
@@ -54,5 +54,35 @@ export const useAuth = () => {
         }
     };
 
-    return { user, loading ,handleRegister, handleLogin, handleLogout };
+    const handleSendOtp = async ({email}) => {
+        setLoading(true);
+        try {
+            const data = await sendOtp({email});
+            toast.success(data.message || "OTP sent successfully");
+        } catch (error) {
+            console.error("Error sending OTP:", error);
+            toast.error(error.response?.data?.message || "Error sending OTP");
+            throw error; // Rethrow the error to be handled by the caller
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleVerifyOtp = async ({email, otp}) => {
+        setLoading(true);
+        try {
+            const data = await verifyOtp({email, otp});
+            setUser(data.user);
+            toast.success(data.message || "OTP verified successfully");
+        } catch (error) {
+            console.error("Error verifying OTP:", error);
+            toast.error(error.response?.data?.message || "Error verifying OTP");
+            throw error; // Rethrow the error to be handled by the caller
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+    return { user, loading ,handleRegister, handleLogin, handleLogout, handleSendOtp, handleVerifyOtp };
 }

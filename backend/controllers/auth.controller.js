@@ -148,7 +148,7 @@ async function sendOtp(req,res){
 
 
 await resend.emails.send({
-    from: 'SkilMap AI <onboarding@resend.dev>',
+    from: 'SkilMap AI <noreply@skill-map-ai.in>',
     to: [email],
     subject: 'Your SkillMap AI OTP Code',
     html: `<h2>SkillMap AI </h2>
