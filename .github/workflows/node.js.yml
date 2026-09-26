@@ -1,0 +1,71 @@
+name:  SKill Map Backend CI/CD
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend-deploy.yml"
+
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Build and Deploy Backend
+    runs-on: self-hosted
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      # 1. Get latest code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Setup Node.js 24
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      # 3. Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Build application if a build script exists
+      - name: Build application
+        run: npm run build --if-present
+
+      # 5. Build Docker image using backend/Dockerfile
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t skillmap-backend:latest \
+            .
+
+      # 6. Stop and remove previous container
+      - name: Remove old container
+        run: |
+          docker stop skillmap-backend || true
+          docker rm skillmap-backend || true
+
+      # 7. Start new container
+      - name: Start new container
+        run: |
+          docker run -d \
+            --name skillmap-backend \
+            --restart unless-stopped \
+            --env-file /home/ubuntu/skillmap-backend.env \
+            -p 3000:3000 \
+            skillmap-backend:latest
+
+      # 8. Verify container
+      - name: Verify deployment
+        run: |
+          sleep 5
+          docker ps
+          docker logs --tail 50 skillmap-backend
